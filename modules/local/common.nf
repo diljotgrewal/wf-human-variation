@@ -140,7 +140,8 @@ process getAllChromosomesBed {
     output:
         path "allChromosomes.bed", emit: all_chromosomes_bed
     """
-    faidx --transform bed $reference > allChromosomes.bed
+    samtools faidx $reference
+    cat ${reference}.fai | awk -F '\t' '{print \$1"\t0\t"\$2}' > allChromosomes.bed
     """
 }
 
